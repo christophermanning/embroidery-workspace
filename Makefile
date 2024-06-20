@@ -20,8 +20,9 @@ lint: build
 shell: build
 	@docker run $(RUN_ARGS) /bin/bash
 
+# https://docs.streamlit.io/knowledge-base/using-streamlit/streamlit-watch-changes-other-modules-importing-app
 up: build
-	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
+	@docker run -p "8501:8501" $(RUN_ARGS) /bin/bash -c "export PYTHONPATH=\$$(find /src/patterns/* -maxdepth 0 -type d -not -path \"*pycache*\" | paste -sd:); streamlit run app.py"
 
 dev:
 	-tmux kill-session -t "${NAME}"

@@ -1,5 +1,4 @@
 import streamlit as st
-
 import time
 
 from gif import Gif
@@ -13,6 +12,20 @@ from pyembroidery import (
     CONTINGENCY_TIE_ON_NONE,
     CONTINGENCY_TIE_OFF_NONE,
 )
+
+# dynamically import pattern package namespace modules so streamlit reloads the app when those files change
+# modules must be imported in this file so streamlit rerun this file when modules are updated
+import os
+import pkgutil
+import importlib
+
+patterns_dir = os.path.dirname(__file__) + "/patterns"
+packages = pkgutil.walk_packages(path=[patterns_dir])
+for importer, name, is_package in packages:
+    if is_package:
+        modules = pkgutil.iter_modules(path=[os.path.join(importer.path, name)])
+        for _, module_name, _ in modules:
+            mod = importlib.import_module(module_name)
 
 args = {}
 

@@ -30,15 +30,3 @@ class Pattern:
             soptions["class"] = subclass
             options.append(soptions)
         return options
-
-
-# recursively import pattern files in subdirectories
-base_dir = os.path.dirname(__file__)
-for root, _, files in os.walk(base_dir):
-    for file in files:
-        if root != base_dir and file.endswith(".py") and file != "__init__.py":
-            file_path = os.path.join(root, file)
-            module_name = file[:-3]
-            spec = importlib.util.spec_from_file_location(module_name, file_path)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
