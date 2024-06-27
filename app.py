@@ -90,14 +90,13 @@ with st.sidebar:
 
     pattern_generation_time = time.time() - start
 
-    pattern_norm = pattern.get_normalized_pattern()
-    num_stitches = len(pattern_norm.stitches)
+    num_stitches = len(pattern.stitches)
     st.markdown(
         f"""
             - Pattern
                 - `{round(pattern_generation_time, 2)}` seconds
                 - _Stitches_ `{num_stitches}`
-                - _Bounds_ `{pattern_norm.bounds()}`
+                - _Bounds_ `{pattern.bounds()}`
           """
     )
 
