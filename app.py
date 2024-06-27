@@ -59,7 +59,7 @@ with st.sidebar:
 
     col1, col2 = st.columns(2)
     with col1:
-        initial_color = st.color_picker("Initial Thread Color", "#FFFFFF")
+        initial_color = st.color_picker("Initial Thread Color", "#DDDDDD")
     with col2:
         background_color = st.color_picker("Background Color", "#0E1117")
 
