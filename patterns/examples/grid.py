@@ -10,12 +10,12 @@ class Grid(Pattern):
         return {
             "label": "Grid",
             "options": {
-                "size": {
+                "dimension": {
                     "function": st.slider,
                     "args": {
-                        "label": "Size",
+                        "label": "Dimension",
                         "min_value": 2,
-                        "max_value": 100,
+                        "max_value": 50,
                         "step": 1,
                         "value": 10,
                     },
@@ -27,8 +27,8 @@ class Grid(Pattern):
             },
         }
 
-    def pattern(self, size, shuffle):
-        nx, ny = (size, size)
+    def pattern(self, dimension, shuffle):
+        nx, ny = (dimension, dimension)
 
         x = np.linspace(self.canvas.margin, self.canvas.width - self.canvas.margin, nx)
         y = np.linspace(self.canvas.margin, self.canvas.height - self.canvas.margin, ny)
