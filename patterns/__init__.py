@@ -1,6 +1,8 @@
 import os
 import importlib.util
 
+from .canvas_pattern import CanvasPattern
+from .canvas import Canvas
 
 class Pattern:
     _patterns = []

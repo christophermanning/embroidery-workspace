@@ -2,6 +2,8 @@ from pyembroidery import EmbPattern, JUMP
 import random
 from patterns.util import distance
 
+from patterns import CanvasPattern
+
 
 # Canvas represends the embroidery suface and the dimensions are machine specific
 # 4 x 4 size hoop with a width and height of 1000 supports a maximum of 30,000 stitches.
@@ -15,17 +17,11 @@ class Canvas:
         self.width = width
         self.height = height
         self.margin = margin
-        self.pattern = Canvas.new_pattern(width, height)
+
+        # setting the pattern bounds to the canvas size ensures a consistant output
+        self.pattern = CanvasPattern(width=width, height=height)
+
         self.pattern += initial_color
-
-    def new_pattern(width, height):
-        pattern = EmbPattern()
-
-        # setting the max extents ensures a consistant output file
-        pattern.add_stitch_absolute(JUMP, 0, 0)
-        pattern.add_stitch_absolute(JUMP, width, height)
-
-        return pattern
 
     def rand_point(self):
         return (

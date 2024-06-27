@@ -3,8 +3,7 @@ import time
 
 from gif import Gif
 
-from patterns import Pattern
-from patterns.canvas import Canvas
+from patterns import Pattern, Canvas, CanvasPattern
 
 from pyembroidery import (
     write_png,
@@ -74,7 +73,7 @@ with st.sidebar:
     )
 
     image_config = {"background": background_color, "linewidth": 2}
-    gif = Gif(Canvas.new_pattern(width, height), image_config)
+    gif = Gif(CanvasPattern(width=width, height=height), image_config)
 
     # generate the pattern
     pattern = None
