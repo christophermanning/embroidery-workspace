@@ -90,12 +90,19 @@ with st.sidebar:
     pattern_generation_time = time.time() - start
 
     num_stitches = len(pattern.stitches)
+    bounds_warning = (
+        "- :red[ERROR] pattern does not fit in bounds"
+        if not canvas.pattern.in_bounds()
+        else ""
+    )
     st.markdown(
         f"""
             - Pattern
                 - `{round(pattern_generation_time, 2)}` seconds
                 - _Stitches_ `{num_stitches}`
                 - _Bounds_ `{pattern.bounds()}`
+                - _Size_ `{pattern.stitch_bounds()}`
+                {bounds_warning}
           """
     )
 
