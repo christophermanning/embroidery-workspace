@@ -3,6 +3,8 @@ import importlib.util
 
 from .canvas_pattern import CanvasPattern
 from .canvas import Canvas
+from .turtle import Turtle
+
 
 class Pattern:
     _patterns = []
