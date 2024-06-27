@@ -80,9 +80,12 @@ with st.sidebar:
     pattern = None
     start = time.time()
     with st.spinner("Generating Pattern..."):
-        for pattern_snapshot in pattern_class.pattern(**args):
+        for i, pattern_snapshot in enumerate(pattern_class.pattern(**args)):
             if "GIF" in output_formats:
                 gif.frame_from_pattern(pattern)
+                if i > 1000:
+                    st.write("ERROR: too many gif frames")
+                    break
             pattern = pattern_snapshot
 
     pattern_generation_time = time.time() - start
