@@ -21,7 +21,7 @@ class Gif:
         )
         self.frame_index += 1
 
-    def save(self):
+    def save(self, filename):
         images = []
         frames = sorted(glob.glob("build/gif/*.png"), key=os.path.getmtime)
 
@@ -36,8 +36,6 @@ class Gif:
         # pause before looping
         durations[-1] = 5000
 
-        filename = "build/pattern.gif"
-
         # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif-saving
         iio.imwrite(filename, images, duration=durations, loop=0)
-        return {"frames": frames, "filename": filename}
+        return frames

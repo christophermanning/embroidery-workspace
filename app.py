@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import re
 
 from gif import Gif
 
@@ -73,7 +74,10 @@ with st.sidebar:
     )
 
     image_config = {"background": background_color, "linewidth": 2}
-    gif = Gif(CanvasPattern(width=width, height=height), image_config)
+
+    gif = None
+    if "GIF" in output_formats:
+        gif = Gif(CanvasPattern(width=width, height=height), image_config)
 
     # generate the pattern
     pattern = None
@@ -106,8 +110,10 @@ with st.sidebar:
           """
     )
 
+    pattern_name = re.sub("[^a-z]", "_", selected_pattern["label"].lower())
+
     if "PES" in output_formats:
-        filename_pes = "build/pattern.pes"
+        filename_pes = f"build/{pattern_name}.pes"
         write_pes(
             pattern,
             filename_pes,
@@ -126,7 +132,7 @@ with st.sidebar:
 
     filename_png = None
     if "PNG" in output_formats:
-        filename_png = "build/pattern.png"
+        filename_png = f"build/{pattern_name}.png"
         start = time.time()
         with st.spinner("Generating PNG..."):
             write_png(pattern, filename_png, image_config)
@@ -135,19 +141,18 @@ with st.sidebar:
             f" - `{filename_png}`\n    - `{round(png_generation_time, 2)}` seconds"
         )
 
-    gif_file = None
+    filename_gif = None
     if "GIF" in output_formats:
         with st.spinner("Generating GIF..."):
             try:
-                gif_file = gif.save()
-                st.markdown(
-                    f" - `{gif_file['filename']}`\n   - Frames: `{len(gif_file['frames'])}`"
-                )
+                filename_gif = f"build/{pattern_name}.gif"
+                gif_frames = gif.save(filename_gif)
+                st.markdown(f" - `{filename_gif}`\n   - Frames: `{len(gif_frames)}`")
             except ValueError as e:
                 st.write("GIF Error:", str(e))
 
 if filename_png:
     st.image(filename_png)
 
-if gif_file:
-    st.image(gif_file["filename"])
+if filename_gif:
+    st.image(filename_gif)
