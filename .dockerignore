@@ -1,0 +1,10 @@
+# incrementally exclude files and folders so the negation below works
+/*
+!/patterns/
+/patterns/*.*
+/patterns/__pycache__
+/patterns/*/*
+
+# # only copy requirements.txt and packages.txt to the Dockerfile
+!/**/requirements.txt
+!/**/packages.txt
