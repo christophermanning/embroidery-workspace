@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 from patterns import Pattern
 
@@ -15,7 +16,7 @@ class RandomWalk(Pattern):
                         "min_value": 10,
                         "max_value": 1000,
                         "step": 1,
-                        "value": 100,
+                        "value": 500,
                     },
                 },
                 "step_size": {
@@ -25,13 +26,20 @@ class RandomWalk(Pattern):
                         "min_value": 10,
                         "max_value": 100,
                         "step": 1,
-                        "value": (30, 60),
+                        "value": (50, 60),
                     },
+                },
+                "pseudorandom": {
+                    "function": st.checkbox,
+                    "args": {"label": "Pseudorandom", "value": True},
                 },
             },
         }
 
-    def pattern(self, steps, step_size):
+    def pattern(self, steps, step_size, pseudorandom):
+        if pseudorandom:
+            random.seed(1)
+
         min_step, max_step = step_size
         pattern = self.canvas.pattern
 
