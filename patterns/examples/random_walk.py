@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-from patterns import Pattern
+from patterns import Pattern, Turtle
 
 
 class RandomWalk(Pattern):
@@ -14,7 +14,7 @@ class RandomWalk(Pattern):
                     "args": {
                         "label": "Steps",
                         "min_value": 10,
-                        "max_value": 1000,
+                        "max_value": 2000,
                         "step": 1,
                         "value": 500,
                     },
@@ -26,7 +26,7 @@ class RandomWalk(Pattern):
                         "min_value": 10,
                         "max_value": 100,
                         "step": 1,
-                        "value": (50, 60),
+                        "value": (20, 40),
                     },
                 },
                 "pseudorandom": {
@@ -37,23 +37,22 @@ class RandomWalk(Pattern):
         }
 
     def pattern(self, steps, step_size, pseudorandom):
+        min_step, max_step = step_size
+
         if pseudorandom:
             random.seed(1)
 
-        min_step, max_step = step_size
-        pattern = self.canvas.pattern
-
-        pattern += self.canvas.rand_point()
+        turtle = Turtle()
 
         for i in range(0, steps):
-            ls = pattern.stitches[len(pattern.stitches) - 1]
-            rp = self.canvas.rand_point_from(ls[0], ls[1], min_step, max_step)
-            if rp:
-                pattern += rp
+            turtle.setheading(random.uniform(0, 360))
+            turtle.forward(random.uniform(min_step, max_step))
 
-            if i % 10 == 0:
-                yield pattern
+        turtle.center(*self.canvas.centroid)
 
-        sls = pattern.stitches[len(pattern.stitches) - 2]
+        for i, pos in enumerate(turtle.points):
+            self.canvas.pattern += pos
+            if i % 50 == 0:
+                yield self.canvas.pattern
 
-        yield pattern
+        yield self.canvas.pattern

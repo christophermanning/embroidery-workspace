@@ -16,6 +16,7 @@ class Canvas:
     def __init__(self, width, height, margin, initial_color):
         self.width = width
         self.height = height
+        self.centroid = (width / 2, height / 2)
         self.margin = margin
 
         # setting the pattern bounds to the canvas size ensures a consistant output
