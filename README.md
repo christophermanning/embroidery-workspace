@@ -20,4 +20,4 @@ make up
 
 [![Grid](patterns/examples/thumbnails/grid.png)](patterns/examples/grid.py) | [![Hilbert Curve](patterns/examples/thumbnails/hilbert_curve.png)](patterns/examples/hilbert_curve.py)
 -- | --
-[![Random Walk](patterns/examples/thumbnails/random_walk.png)](patterns/examples/random_walk.py) |
+[![Random Walk](patterns/examples/thumbnails/random_walk.png)](patterns/examples/random_walk.py) | [![Spiral](patterns/examples/thumbnails/spiral.png)](patterns/examples/spiral.py)
