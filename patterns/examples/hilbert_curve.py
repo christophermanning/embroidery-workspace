@@ -2,8 +2,6 @@ import streamlit as st
 
 from patterns import Pattern, Turtle
 
-from shapely import LineString, affinity
-
 
 class HilbertCurve(Pattern):
     def options():
@@ -67,16 +65,9 @@ class HilbertCurve(Pattern):
     def pattern(self, iterations, size, angle):
         turtle = Turtle()
         self.hilbert(turtle, iterations, size, angle)
+        turtle.center(*self.canvas.centroid)
 
-        # center the points
-        ls = LineString(turtle.points)
-        ls = affinity.translate(
-            ls,
-            (self.canvas.width / 2) - ls.centroid.x,
-            (self.canvas.height / 2) - ls.centroid.y,
-        )
-
-        for i, pos in enumerate(ls.coords):
+        for i, pos in enumerate(turtle.points):
             self.canvas.pattern += pos
             if i % 50 == 0:
                 yield self.canvas.pattern
