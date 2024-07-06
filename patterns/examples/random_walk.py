@@ -29,18 +29,16 @@ class RandomWalk(Pattern):
                         "value": (20, 40),
                     },
                 },
-                "pseudorandom": {
-                    "function": st.checkbox,
-                    "args": {"label": "Pseudorandom", "value": True},
+                "random_seed": {
+                    "function": st.number_input,
+                    "args": {"label": "Random Seed", "value": None, "step": 1},
                 },
             },
         }
 
-    def pattern(self, steps, step_size, pseudorandom):
+    def pattern(self, steps, step_size, random_seed):
         min_step, max_step = step_size
-
-        if pseudorandom:
-            random.seed(1)
+        random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
 
         turtle = Turtle()
 
