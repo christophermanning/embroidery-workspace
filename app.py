@@ -34,12 +34,22 @@ st.markdown(
     unsafe_allow_html=True,
 )
 with st.sidebar:
-    st.title("Embroidery Workspace")
+    st.markdown(
+        "# <a href='/' target='_self'>Embroidery Workspace</a>", unsafe_allow_html=True
+    )
 
     st.markdown("## Pattern")
     patterns = Pattern.patterns()
+    pattern_labels = [d["label"] for d in patterns]
     selected_pattern = st.selectbox(
-        "Pattern", [d["label"] for d in patterns], label_visibility="collapsed"
+        "Pattern",
+        pattern_labels,
+        label_visibility="collapsed",
+        index=pattern_labels.index(st.query_params.get("pattern", "Random Walk")),
+        key="selected_pattern",
+        on_change=lambda: st.query_params.from_dict(
+            {"pattern": st.session_state.get("selected_pattern")}
+        ),
     )
     selected_pattern = next(d for d in patterns if d["label"] == selected_pattern)
 
