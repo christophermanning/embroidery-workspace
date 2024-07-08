@@ -14,6 +14,10 @@ class Turtle(TNavigator):
         super()._goto(end)
         self.points.append(self.pos())
 
+    def undo(self):
+        self.points = self.points[0:-1]
+        self.teleport(*self.points[-1])
+
     def center(self, x, y):
         ls = LineString(self.points)
 
