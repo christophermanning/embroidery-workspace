@@ -24,8 +24,8 @@ packages = pkgutil.walk_packages(path=[patterns_dir])
 for importer, name, is_package in packages:
     if is_package:
         modules = pkgutil.iter_modules(path=[os.path.join(importer.path, name)])
-        for _, module_name, _ in modules:
-            mod = importlib.import_module(module_name)
+        for pkg, module_name, _ in modules:
+            importlib.import_module(module_name, pkg)
 
 args = {}
 
