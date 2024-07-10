@@ -1,10 +1,10 @@
-FROM python:3.12-slim
+FROM python:3.12.4-slim
 
 RUN pip install --upgrade pip
 RUN apt-get update
 
 # a .dockerignore file excludes everything except requirements.txt and package.txt files
-# so this reruns when those files change
+# so this only reruns when those files change
 COPY / /src
 
 # Install Debian packages listed in any **/packages.txt file
