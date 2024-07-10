@@ -22,6 +22,14 @@ class Canvas:
         # setting the pattern bounds to the canvas size ensures a consistant output
         self.pattern = CanvasPattern(width=width, height=height)
 
+        # the bounding box of the content area of the canvas
+        self.bbox = [
+            self.margin,
+            self.margin,
+            self.margin + self.width - (self.margin * 2),
+            self.margin + self.height - (self.margin * 2),
+        ]
+
         self.pattern += initial_color
 
     def rand_point(self):
