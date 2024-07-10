@@ -5,6 +5,7 @@
 /patterns/__pycache__
 /patterns/*/*
 
-# # only copy requirements.txt and packages.txt to the Dockerfile
+# # only copy requirements.txt, packages.txt, and entrypoint.sh to the Dockerfile
 !/**/requirements.txt
 !/**/packages.txt
+!/entrypoint.sh

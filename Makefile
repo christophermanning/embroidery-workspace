@@ -22,7 +22,7 @@ shell: build
 
 # https://docs.streamlit.io/knowledge-base/using-streamlit/streamlit-watch-changes-other-modules-importing-app
 up: build
-	@docker run -p "8501:8501" $(RUN_ARGS) /bin/bash -c "export PYTHONPATH=\$$(find /src/patterns/* -maxdepth 0 -type d -not -path \"*pycache*\" | paste -sd:); streamlit run app.py"
+	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
 
 example-images: build
 	@docker run  -v ./build:/src --rm -it $$(docker build -q -f thumbnail.Dockerfile .) /bin/sh -c "mkdir -p thumbnails && mogrify -thumbnail 400x -path ./thumbnails *.png"
