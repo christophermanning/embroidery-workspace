@@ -20,6 +20,9 @@ lint: build
 shell: build
 	@docker run $(RUN_ARGS) /bin/bash
 
+test: build
+	@docker run $(RUN_ARGS) python -m unittest
+
 # https://docs.streamlit.io/knowledge-base/using-streamlit/streamlit-watch-changes-other-modules-importing-app
 up: build
 	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
