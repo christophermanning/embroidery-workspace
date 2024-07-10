@@ -28,7 +28,7 @@ up: build
 	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
 
 example-images: build
-	@docker run  -v ./build:/src --rm -it $$(docker build -q -f thumbnail.Dockerfile .) /bin/sh -c "mkdir -p thumbnails && mogrify -thumbnail 400x -path ./thumbnails *.png"
+	@docker run  -v ./build:/src --rm -it $$(docker build -q -f thumbnail.Dockerfile .) /bin/sh -c "mkdir -p thumbnails && mogrify -thumbnail 400x -path ./thumbnails *.png && mogrify -thumbnail 1600x -path ./thumbnails screenshot.png"
 
 dev:
 	-tmux kill-session -t "${NAME}"

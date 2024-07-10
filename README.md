@@ -1,6 +1,6 @@
 # embroidery-workspace
 
-![screenshot](screenshot.png)
+[![Hello World Screenshot](screenshot.png)](patterns/examples/lettering.py)
 
 Streamlit app for generating embroidery patterns using pyembroidery.
 
