@@ -1,6 +1,6 @@
 from pyembroidery import EmbPattern, JUMP
 
-from shapely import Polygon, LineString
+from shapely import Polygon, LineString, affinity
 
 
 # add custom methods to EmbPattern
@@ -26,3 +26,25 @@ class CanvasPattern(EmbPattern):
             [[0, 0], [self.width, 0], [self.width, self.height], [0, self.height]]
         )
         return container.contains(LineString(self.stitches[2:]))
+
+    def center(self, x, y):
+        if len(self.stitches) == 0:
+            return None
+
+        ls = LineString([p[0:2] for p in self.stitches[2:]])
+
+        midpoint = [
+            (ls.bounds[2] + ls.bounds[0]) / 2,
+            (ls.bounds[3] + ls.bounds[1]) / 2,
+        ]
+
+        offset_x = x - midpoint[0]
+        offset_y = y - midpoint[1]
+        ls = affinity.translate(ls, x - midpoint[0], y - midpoint[1])
+
+        # restore any additional elements that were in self.stitches
+        self.stitches = self.stitches[0:2] + [
+            list(c) + self.stitches[2:][i][2:] for i, c in enumerate(ls.coords)
+        ]
+
+        return (offset_x, offset_y)
