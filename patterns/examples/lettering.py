@@ -49,19 +49,17 @@ class Lettering(Pattern):
         y = np.linspace(0, self.canvas.height, 100)
         xv, yv = np.meshgrid(x, y)
         coords = list(np.vstack(list(zip(xv.ravel(), yv.ravel()))))
+        # only use coords that overlap with a black image pixel
+        coords = [c for c in coords if image.getpixel(c) == 0x000000]
 
         for i, c in enumerate(coords):
-            # only add a stitch if the current image pixel is the black text
-            if image.getpixel(c) == 0x000000:
-                line = LineString(
-                    [self.canvas.pattern.stitches[-1][0:2], c]
-                ).segmentize(10)
+            line = LineString([self.canvas.pattern.stitches[-1][0:2], c]).segmentize(10)
 
-                # if every line segment is not overlayed on the text, add a random color to the pattern to change the thread
-                if not all([image.getpixel(c) == 0x000000 for c in line.coords]):
-                    self.canvas.pattern += f"#{random.randint(0x000000, 0xFFFFFF):6x}"
+            # if every line segment is not overlayed on the text, add a random color to the pattern to change the thread
+            if not all([image.getpixel(c) == 0x000000 for c in line.coords]):
+                self.canvas.pattern += f"#{random.randint(0x000000, 0xFFFFFF):6x}"
 
-                self.canvas.pattern += tuple(c)
+            self.canvas.pattern += tuple(c)
 
             if i % 50 == 0:
                 yield self.canvas.pattern
