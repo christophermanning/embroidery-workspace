@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 
-from patterns import Pattern, Turtle
+from patterns import Pattern, Turtle, bbox_contains
 
 
 class RandomWalk(Pattern):
@@ -17,6 +17,16 @@ class RandomWalk(Pattern):
                         "max_value": 2000,
                         "step": 1,
                         "value": 500,
+                    },
+                },
+                "heading_step": {
+                    "function": st.slider,
+                    "args": {
+                        "label": "Heading Step",
+                        "min_value": 1,
+                        "max_value": 180,
+                        "step": 1,
+                        "value": 1,
                     },
                 },
                 "step_size": {
@@ -36,21 +46,33 @@ class RandomWalk(Pattern):
             },
         }
 
-    def pattern(self, steps, step_size, random_seed):
+    def pattern(self, steps, heading_step, step_size, random_seed):
         min_step, max_step = step_size
         random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
 
         turtle = Turtle()
 
+        cbbox = self.canvas.bbox
+        turtle.teleport(
+            random.uniform(cbbox[0], cbbox[2]), random.uniform(cbbox[1], cbbox[3])
+        )
+
+        headings = range(0, 360, heading_step)
         for i in range(0, steps):
-            turtle.setheading(random.uniform(0, 360))
+            turtle.setheading(random.choice(headings))
             turtle.forward(random.uniform(min_step, max_step))
 
-        turtle.center(*self.canvas.centroid)
+            pos = turtle.pos()
+            bbox = [pos[0], pos[1], pos[0] + 1, pos[1] + 1]
+            if not bbox_contains(self.canvas.bbox, bbox):
+                turtle.undo()
+                continue
 
-        for i, pos in enumerate(turtle.points):
             self.canvas.pattern += pos
+
             if i % 50 == 0:
                 yield self.canvas.pattern
+
+        self.canvas.pattern.center(*self.canvas.centroid)
 
         yield self.canvas.pattern
