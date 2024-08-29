@@ -28,6 +28,9 @@ class Gif:
         if len(frames) == 0:
             raise ValueError("No Frames Found")
 
+        if len(frames) == 1:
+            raise ValueError("Only One Frame Found")
+
         for i, f in enumerate(frames):
             images.append(iio.imread(f))
 

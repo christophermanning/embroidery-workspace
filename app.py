@@ -182,6 +182,7 @@ with st.sidebar:
                     )
                 except ValueError as e:
                     st.write("GIF Error:", str(e))
+                    filename_gif = None
 
 if filename_png:
     st.image(filename_png)
