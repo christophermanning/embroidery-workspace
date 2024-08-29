@@ -11,6 +11,7 @@ class Pattern:
 
     def __init__(self, canvas):
         self.canvas = canvas
+        self.log = []
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)

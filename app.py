@@ -96,6 +96,9 @@ with st.sidebar:
 
             pattern_details = []
 
+            for log in pattern_class.log:
+                pattern_details.append(f"- {log}")
+
             if not canvas.pattern.in_bounds():
                 pattern_details.append(f"- :red[ERROR] pattern does not fit in bounds")
 
