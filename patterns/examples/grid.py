@@ -44,7 +44,7 @@ class Grid(Pattern):
                     "function": st.selectbox,
                     "args": {
                         "label": "Path",
-                        "options": ["Random", "Horizontal", "Diagonal"],
+                        "options": ["Random", "Horizontal", "Spiral", "Diagonal"],
                     },
                 },
             },
@@ -53,17 +53,14 @@ class Grid(Pattern):
     def pattern(self, width, height, dimension, path):
         nx, ny = (dimension, dimension)
 
-        x, step = np.linspace(
-            self.canvas.margin,
-            self.canvas.margin + width - self.canvas.margin,
-            nx,
-            True,
-            True,
-        )
+        x0 = self.canvas.margin
+        x1 = self.canvas.margin + width - self.canvas.margin
+        x, step = np.linspace(x0, x1, nx, True, True)
         self.log.append(f"_Stitch Distance_ `{round(step,2)}`")
-        y = np.linspace(
-            self.canvas.margin, self.canvas.margin + height - self.canvas.margin, ny
-        )
+
+        y0 = self.canvas.margin
+        y1 = self.canvas.margin + height - self.canvas.margin
+        y = np.linspace(y0, y1, ny)
         xv, yv = np.meshgrid(x, y)
 
         coords = np.vstack(list(zip(xv.ravel(), yv.ravel())))
@@ -76,6 +73,28 @@ class Grid(Pattern):
                     start = dimension * i
                     end = start + dimension
                     coords[start:end] = coords[start:end][::-1]
+        elif path == "Spiral":
+            tcoords = []
+
+            xi = -1
+            yi = 0
+            direction = 1
+            rows = dimension
+            cols = dimension - 1
+            for _ in range(dimension * dimension):
+                for _ in range(0, rows):
+                    xi += direction
+                    tcoords.append(coords[yi * dimension + xi])
+                rows -= 1
+
+                for _ in range(0, cols):
+                    yi += direction
+                    tcoords.append(coords[yi * dimension + xi])
+                cols -= 1
+
+                direction *= -1
+
+            coords = tcoords
         elif path == "Diagonal":
             tcoords = []
 
