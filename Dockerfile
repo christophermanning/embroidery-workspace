@@ -20,3 +20,5 @@ RUN rm -Rf /src
 
 WORKDIR /src
 ENTRYPOINT ["entrypoint.sh"]
+
+EXPOSE 8501
