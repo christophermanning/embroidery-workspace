@@ -1,4 +1,4 @@
-FROM python:3.12.4-slim
+FROM python:3.12.7-slim
 
 RUN pip install --upgrade pip
 RUN apt-get update

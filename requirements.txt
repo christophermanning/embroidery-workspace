@@ -1,6 +1,6 @@
-black~=24.4
-imageio~=2.34
-pillow~=10.3
+black~=24.0
+imageio~=2.0
+pillow~=10.0
 pyembroidery~=1.5
-streamlit~=1.35
+streamlit~=1.39
 shapely~=2.0

@@ -1,11 +1,11 @@
 NAME=embroidery-workspace
 
-build:
+build: Dockerfile.build
 	@if [ -z "$(shell docker images -q ${NAME})" ]; then make clean; fi
 	@make -s Dockerfile.build
 
 # track the build timestamp in Dockerfile.build so the Dockerfile is rebuilt when dependencies change
-Dockerfile.build: Dockerfile */**/packages.txt */**/requirements.txt
+Dockerfile.build: Dockerfile */**/packages.txt */**/requirements.txt requirements.txt packages.txt
 	docker build -t ${NAME} .
 	touch $@
 
