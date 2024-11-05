@@ -27,6 +27,23 @@ class CanvasPattern(EmbPattern):
         )
         return container.contains(LineString(self.stitches[2:]))
 
+    # repeat the pattern's first and last two stitches to secure the thread
+    def add_lock_stitches(self, num_overlaps=2):
+        new_stitches = self.stitches[0:2]
+
+        for _ in range(num_overlaps):
+            new_stitches.append(self.stitches[2])
+            new_stitches.append(self.stitches[3])
+
+        new_stitches += self.stitches[2:]
+
+        for _ in range(num_overlaps):
+            new_stitches.append(self.stitches[-2])
+            new_stitches.append(self.stitches[-1])
+
+        self.stitches = new_stitches
+
+    # update all stitches so the pattern is centered
     def center(self, x, y):
         if len(self.stitches) == 0:
             return None
