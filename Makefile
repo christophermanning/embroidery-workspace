@@ -14,7 +14,7 @@ clean:
 
 RUN_ARGS=--rm -it  --volume ./:/src ${NAME}
 
-lint: build
+format: build
 	@docker run $(RUN_ARGS) black . --exclude=""
 
 shell: build
