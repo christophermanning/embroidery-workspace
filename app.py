@@ -125,16 +125,24 @@ with st.sidebar:
             default=["PNG"],
         )
 
-        pattern_name = re.sub("[^a-z]", "_", selected_pattern["label"].lower())
-        pattern_name = st.text_input(
-            "Filename",
-            value=pattern_name,
+        file_basename = selected_pattern["label"].lower()
+
+        if pattern_class.basename != None:
+            file_basename = pattern_class.basename
+
+        file_basename_override = st.text_input(
+            "File basename", placeholder=file_basename
         )
+
+        if file_basename_override != "":
+            file_basename = file_basename_override
+
+        file_basename = re.sub("[^a-z0-9_-]/i", "-", file_basename)
 
         image_config = {"background": background_color, "linewidth": 2}
 
         if "PES" in output_formats:
-            filename_pes = f"build/{pattern_name}.pes"
+            filename_pes = f"build/{file_basename}.pes"
             start = time.time()
             write_pes(
                 pattern,
@@ -156,7 +164,7 @@ with st.sidebar:
 
         filename_png = None
         if "PNG" in output_formats:
-            filename_png = f"build/{pattern_name}.png"
+            filename_png = f"build/{file_basename}.png"
             start = time.time()
             with st.spinner("Generating PNG..."):
                 write_png(pattern, filename_png, image_config)
@@ -177,7 +185,7 @@ with st.sidebar:
                         break
 
                 try:
-                    filename_gif = f"build/{pattern_name}.gif"
+                    filename_gif = f"build/{file_basename}.gif"
                     gif_frames = gif.save(filename_gif)
                     gif_generation_time = time.time() - start
                     st.markdown(

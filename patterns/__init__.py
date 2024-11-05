@@ -13,6 +13,9 @@ class Pattern:
         self.canvas = canvas
         self.log = []
 
+        # override the output file basename
+        self.basename = None
+
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         cls._patterns.append(cls)
