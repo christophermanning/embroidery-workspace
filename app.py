@@ -141,6 +141,9 @@ with st.sidebar:
 
         image_config = {"background": background_color, "linewidth": 2}
 
+        if not os.path.isdir("build"):
+            os.makedirs("build")
+
         if "PES" in output_formats:
             filename_pes = f"build/{file_basename}.pes"
             start = time.time()
