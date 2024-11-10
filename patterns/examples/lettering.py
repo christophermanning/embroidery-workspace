@@ -19,13 +19,15 @@ class Lettering(Pattern):
                     "function": st.text_area,
                     "args": {
                         "label": "Text",
-                        "value": "Hello\nWorld",
+                        "value": " Hello\nWorld",
                     },
                 },
             },
         }
 
     def pattern(self, text):
+        random.seed(1)
+
         # create a black and white image +1 in size to match the 0 based lists
         image = Image.new("1", (self.canvas.width + 1, self.canvas.height + 1), "white")
         draw = ImageDraw.Draw(image)
