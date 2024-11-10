@@ -1,4 +1,5 @@
 import streamlit as st
+import random
 
 from patterns import Pattern
 
@@ -47,11 +48,16 @@ class Grid(Pattern):
                         "options": ["Random", "Horizontal", "Spiral", "Diagonal"],
                     },
                 },
+                "random_seed": {
+                    "function": st.number_input,
+                    "args": {"label": "Random Seed", "value": None, "step": 1},
+                },
             },
         }
 
-    def pattern(self, width, height, dimension, path):
+    def pattern(self, width, height, dimension, path, random_seed):
         nx, ny = (dimension, dimension)
+        random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
 
         x0 = self.canvas.margin
         x1 = self.canvas.margin + width - self.canvas.margin
