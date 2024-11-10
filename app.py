@@ -210,3 +210,6 @@ if filename_png:
 
 if filename_gif:
     st.image(filename_gif)
+
+# used by playwright to detect when the page has finished loading
+st.html('<span data-testid="completed">&nbsp;</span>')

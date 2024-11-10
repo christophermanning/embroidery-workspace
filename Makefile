@@ -12,7 +12,7 @@ Dockerfile.build: Dockerfile */**/packages.txt */**/requirements.txt requirement
 clean:
 	rm Dockerfile.build || true
 
-RUN_ARGS=--rm -it  --volume ./:/src ${NAME}
+RUN_ARGS=--rm -it --volume ./:/src ${NAME}
 
 format: build
 	@docker run $(RUN_ARGS) black . --exclude=""
@@ -27,8 +27,9 @@ test: build
 up: build
 	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
 
+# https://playwright.dev/docs/docker
 example-images: build
-	@docker run  -v ./build:/src --rm -it $$(docker build -q -f thumbnail.Dockerfile .) /bin/sh -c "mkdir -p thumbnails && mogrify -thumbnail 400x -path ./thumbnails *.png && mogrify -thumbnail 1600x -path ./thumbnails screenshot.png"
+	@docker run --net="host" --rm -it --volume ./:/src $$(docker build -q -f thumbnail.Dockerfile .) /bin/bash -c "python screenshots.py"
 
 dev:
 	-tmux kill-session -t "${NAME}"

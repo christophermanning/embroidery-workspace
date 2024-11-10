@@ -1,6 +1,15 @@
-FROM alpine:3.19
+FROM python:3.12.7-slim
 
-# for compressing example images
-RUN apk --no-cache add imagemagick
+RUN pip install --upgrade pip
+
+# use playwright to interact with streamlit
+# https://playwright.dev/python/docs/library
+RUN pip install playwright
+RUN playwright install-deps
+RUN playwright install firefox
+
+# use imagemagick to compress example images
+RUN apt-get update
+RUN apt-get install -y imagemagick
 
 WORKDIR /src
