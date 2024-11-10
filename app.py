@@ -1,11 +1,12 @@
 import streamlit as st
 import time
-import re
 import copy
 
 from gif import Gif
 
 from patterns import Pattern, Canvas, CanvasPattern
+
+from util import clean_basename
 
 from pyembroidery import (
     write_png,
@@ -29,6 +30,7 @@ for importer, name, is_package in packages:
             importlib.import_module(module_name, pkg)
 
 args = {}
+
 
 st.markdown(
     "<style>div.st-emotion-cache-qeahdt h1, div.st-emotion-cache-qeahdt { padding-top: 0 } </style>",
@@ -135,14 +137,14 @@ with st.sidebar:
         if pattern_class.basename != None:
             file_basename = pattern_class.basename
 
+        file_basename = clean_basename(file_basename)
+
         file_basename_override = st.text_input(
             "File basename", placeholder=file_basename
         )
 
         if file_basename_override != "":
-            file_basename = file_basename_override
-
-        file_basename = re.sub("[^a-z0-9_-]/i", "-", file_basename)
+            file_basename = clean_basename(file_basename_override)
 
         image_config = {"background": background_color, "linewidth": 2}
 
