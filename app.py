@@ -56,6 +56,11 @@ with st.sidebar:
 
         if "options" in selected_pattern:
             for key, option in selected_pattern["options"].items():
+                # set the default value for a param from a url
+                query_param = st.query_params.get(key)
+                if query_param != None:
+                    option["args"]["value"] = int(query_param)
+
                 # this will display a `st.` input defined in the pattern
                 args[key] = option["function"](**option["args"])
 
