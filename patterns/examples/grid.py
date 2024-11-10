@@ -57,7 +57,7 @@ class Grid(Pattern):
 
     def pattern(self, width, height, dimension, path, random_seed):
         nx, ny = (dimension, dimension)
-        random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
+        np.random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
 
         x0 = self.canvas.margin
         x1 = self.canvas.margin + width - self.canvas.margin
