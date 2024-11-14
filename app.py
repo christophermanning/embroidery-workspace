@@ -7,6 +7,7 @@ from gif import Gif
 from patterns import Pattern, Canvas, CanvasPattern
 
 from util import clean_basename
+from inputs import Inputs
 
 from pyembroidery import (
     write_png,
@@ -29,6 +30,7 @@ for importer, name, is_package in packages:
         for pkg, module_name, _ in modules:
             importlib.import_module(module_name, pkg)
 
+inputs = Inputs()
 args = {}
 
 
@@ -44,42 +46,47 @@ with st.sidebar:
     with st.expander("## Pattern", True):
         patterns = Pattern.patterns()
         pattern_labels = [d["label"] for d in patterns]
-        selected_pattern = st.selectbox(
-            "Pattern",
-            pattern_labels,
+        selected_pattern = inputs.load(
+            st.selectbox,
+            "pattern",
+            label="Pattern",
+            options=pattern_labels,
             label_visibility="collapsed",
             index=pattern_labels.index(st.query_params.get("pattern", "Random Walk")),
-            key="selected_pattern",
-            on_change=lambda: st.query_params.from_dict(
-                {"pattern": st.session_state.get("selected_pattern")}
-            ),
+            # when the pattern changes, unset any existing query parameters
+            on_change=lambda: st.query_params.from_dict({}),
         )
         selected_pattern = next(d for d in patterns if d["label"] == selected_pattern)
 
         if "options" in selected_pattern:
             for key, option in selected_pattern["options"].items():
-                # set the default value for a param from a url
-                query_param = st.query_params.get(key)
-                if query_param != None:
-                    option["args"]["value"] = int(query_param)
-
                 # this will display a `st.` input defined in the pattern
-                args[key] = option["function"](**option["args"])
+                args[key] = inputs.load(option["function"], key, **option["args"])
 
     with st.expander("## Canvas"):
         col1, col2, col3 = st.columns(3)
         with col1:
-            width = st.number_input("Width", value=1000)
+            width = inputs.load(st.number_input, "width", value=1000, label="Width")
         with col2:
-            height = st.number_input("Height", value=1000)
+            height = inputs.load(st.number_input, "height", value=1000, label="Height")
         with col3:
-            margin = st.number_input("Margin", value=10)
+            margin = inputs.load(st.number_input, "margin", value=10, label="Margin")
 
         col1, col2 = st.columns(2)
         with col1:
-            initial_color = st.color_picker("Initial Thread Color", "#DDDDDD")
+            initial_color = inputs.load(
+                st.color_picker,
+                "initial_thread_color",
+                value="#DDDDDD",
+                label="Initial Thread Color",
+            )
         with col2:
-            background_color = st.color_picker("Background Color", "#0E1117")
+            background_color = inputs.load(
+                st.color_picker,
+                "background_color",
+                value="#0E1117",
+                label="Background Color",
+            )
 
     canvas = Canvas(width, height, margin, initial_color)
     pattern_class = selected_pattern["class"](canvas)
@@ -151,6 +158,8 @@ with st.sidebar:
         if not os.path.isdir("build"):
             os.makedirs("build")
 
+        st.markdown(f" - [Permalink]({inputs.permalink()})")
+
         if "PES" in output_formats:
             filename_pes = f"build/{file_basename}.pes"
             start = time.time()
@@ -166,10 +175,7 @@ with st.sidebar:
 
             pes_generation_time = time.time() - start
             st.markdown(
-                f"""
-                - `{filename_pes}`
-                    - `{round(pes_generation_time, 2)}` seconds
-                 """
+                f" - `{filename_pes}`\n    - `{round(pes_generation_time, 2)}` seconds"
             )
 
         filename_png = None
