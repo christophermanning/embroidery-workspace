@@ -28,7 +28,7 @@ up: build
 	@docker run -p "8501:8501" $(RUN_ARGS) streamlit run app.py
 
 # https://playwright.dev/docs/docker
-example-images: build
+images: build
 	@docker run --net="host" --rm -it --volume ./:/src $$(docker build -q -f thumbnail.Dockerfile .) /bin/bash -c "python screenshots.py"
 
 dev:
