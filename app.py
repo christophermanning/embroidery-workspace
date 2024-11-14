@@ -63,24 +63,30 @@ with st.sidebar:
     with st.expander("## Canvas"):
         col1, col2, col3 = st.columns(3)
         with col1:
-            width = inputs.load(st.number_input, "width", value=1000, label="Width")
+            width = inputs.load(
+                st.number_input, "canvas_width", value=1000, label="Width"
+            )
         with col2:
-            height = inputs.load(st.number_input, "height", value=1000, label="Height")
+            height = inputs.load(
+                st.number_input, "canvas_height", value=1000, label="Height"
+            )
         with col3:
-            margin = inputs.load(st.number_input, "margin", value=10, label="Margin")
+            margin = inputs.load(
+                st.number_input, "canvas_margin", value=10, label="Margin"
+            )
 
         col1, col2 = st.columns(2)
         with col1:
             initial_color = inputs.load(
                 st.color_picker,
-                "initial_thread_color",
+                "canvas_initial_thread_color",
                 value="#DDDDDD",
                 label="Initial Thread Color",
             )
         with col2:
             background_color = inputs.load(
                 st.color_picker,
-                "background_color",
+                "canvas_background_color",
                 value="#0E1117",
                 label="Background Color",
             )

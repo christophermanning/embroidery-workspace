@@ -28,6 +28,10 @@ class Inputs:
                         args["value"] = int(args["value"])
 
         val = func(**args)
+
+        if key in self.inputs:
+            raise ValueError(f"duplicate key: {key}")
+
         self.inputs[key] = val
         return val
 
