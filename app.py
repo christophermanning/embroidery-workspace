@@ -129,6 +129,8 @@ with st.sidebar:
             bx, by = pattern.stitch_bounds()
             pattern_details.append(f"- _Size_ `{round(bx,2)}` x `{round(by,2)}`")
 
+            pattern_details.append(f" - [Permalink]({inputs.permalink()})")
+
             st.markdown(
                 f"""
                     {'\n' + '\n'.join([f"\t {p}" for p in pattern_details])}
@@ -160,8 +162,6 @@ with st.sidebar:
 
         if not os.path.isdir("build"):
             os.makedirs("build")
-
-        st.markdown(f" - [Permalink]({inputs.permalink()})")
 
         if "PES" in output_formats:
             filename_pes = f"build/{file_basename}.pes"
