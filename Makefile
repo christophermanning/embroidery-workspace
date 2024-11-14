@@ -29,7 +29,7 @@ up: build
 
 # https://playwright.dev/docs/docker
 images: build
-	@docker run --net="host" --rm -it --volume ./:/src $$(docker build -q -f thumbnail.Dockerfile .) /bin/bash -c "python screenshots.py"
+	@docker run --net="host" --rm -it --volume ./:/src $$(docker build -q -f thumbnail.Dockerfile .) /bin/bash -c "python images.py"
 
 dev:
 	-tmux kill-session -t "${NAME}"
