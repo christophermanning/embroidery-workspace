@@ -14,7 +14,7 @@ class Grid(Pattern):
                 "width": {
                     "function": st.slider,
                     "args": {
-                        "label": "width",
+                        "label": "Width",
                         "min_value": 50,
                         "max_value": 1000,
                         "step": 10,
