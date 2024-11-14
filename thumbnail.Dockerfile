@@ -8,6 +8,9 @@ RUN pip install playwright
 RUN playwright install-deps
 RUN playwright install firefox
 
+# used for image generation
+RUN pip install pillow
+
 # use imagemagick to compress example images
 RUN apt-get update
 RUN apt-get install -y imagemagick

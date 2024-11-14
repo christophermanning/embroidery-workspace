@@ -1,5 +1,6 @@
 # https://playwright.dev/python/docs/library#usage
 from playwright.sync_api import sync_playwright
+from PIL import Image, ImageDraw, ImageFont
 import subprocess
 
 from util import clean_basename
@@ -36,3 +37,9 @@ with sync_playwright() as p:
         print(f"generated {basename} pattern thumbnail")
 
     browser.close()
+
+img = Image.new("RGBA", (900, 100), (255, 0, 0, 0))
+d = ImageDraw.Draw(img)
+font = ImageFont.load_default(80)
+d.text((0, 0), "Embroidery Workspace", fill=(255, 255, 255), font=font)
+img.save("logo.png")

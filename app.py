@@ -33,16 +33,13 @@ for importer, name, is_package in packages:
 inputs = Inputs()
 args = {}
 
+st.logo("logo.png", icon_image=None, link="http://localhost:8501/")
 
 st.markdown(
     "<style>div.st-emotion-cache-qeahdt h1, div.st-emotion-cache-qeahdt { padding-top: 0 } </style>",
     unsafe_allow_html=True,
 )
 with st.sidebar:
-    st.markdown(
-        "# <a href='/' target='_self'>Embroidery Workspace</a>", unsafe_allow_html=True
-    )
-
     with st.expander("## Pattern", True):
         patterns = Pattern.patterns()
         pattern_labels = [d["label"] for d in patterns]
