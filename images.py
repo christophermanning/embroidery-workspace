@@ -9,13 +9,13 @@ from util import clean_basename
 with sync_playwright() as p:
     browser = p.firefox.launch()
 
-    screenshot_size = {"width": 1200, "height": 1000}
+    screenshot_size = {"width": 1200, "height": 1100}
     page = browser.new_page(color_scheme="dark", viewport=screenshot_size)
 
     page.goto(f"http://localhost:8501/?pattern=Lettering")
     page.get_by_test_id("completed").wait_for()
     page.screenshot(
-        path="screenshot.png", full_page=True, clip={"x": 1, "y": 75} | screenshot_size
+        path="screenshot.png", full_page=True, clip={"x": 1, "y": 10} | screenshot_size
     )
     subprocess.run(
         [f"mogrify -strip -thumbnail 800x -path /src/ /src/screenshot.png"],
