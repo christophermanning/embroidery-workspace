@@ -6,6 +6,9 @@ from gif import Gif
 
 from patterns import Pattern, Canvas, CanvasPattern
 
+from PIL import Image
+from PIL.PngImagePlugin import PngInfo
+
 from util import clean_basename
 from inputs import Inputs
 
@@ -187,6 +190,13 @@ with st.sidebar:
             start = time.time()
             with st.spinner("Generating PNG..."):
                 write_png(pattern, filename_png, image_config)
+
+                # save pattern generation parameters in the image to restore settings from an image
+                targetImage = Image.open(filename_png)
+                metadata = PngInfo()
+                metadata.add_text("embroidery-workspace/v1/params", inputs.permalink())
+                targetImage.save(filename_png, pnginfo=metadata)
+
             png_generation_time = time.time() - start
             st.markdown(
                 f" - `{filename_png}`\n    - `{round(png_generation_time, 2)}` seconds"
