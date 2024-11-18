@@ -11,7 +11,7 @@ class Canvas:
     # minimimum unit distance between stitches
     MU = 25
 
-    def __init__(self, width, height, margin, initial_color):
+    def __init__(self, width: int, height: int, margin: int, initial_color: str):
         self.width = width
         self.height = height
         self.centroid = (width / 2, height / 2)

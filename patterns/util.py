@@ -1,13 +1,13 @@
 import math
 
 
-def distance(point1, point2):
+def distance(point1: tuple[int, int], point2: tuple[int, int]):
     x1, y1 = point1
     x2, y2 = point2
     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 
-def bbox_contains(bbox1, bbox2):
+def bbox_contains(bbox1: tuple[int, int, int, int], bbox2: tuple[int, int, int, int]):
     return (
         bbox2[0] >= bbox1[0]
         and bbox2[1] >= bbox1[1]
