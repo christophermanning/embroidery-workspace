@@ -17,6 +17,9 @@ RUN_ARGS=--rm -it --volume ./:/src ${NAME}
 format: build
 	@docker run $(RUN_ARGS) black . --exclude=""
 
+lint: build
+	@docker run $(RUN_ARGS) mypy app.py
+
 shell: build
 	@docker run $(RUN_ARGS) /bin/bash
 

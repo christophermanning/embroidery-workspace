@@ -9,8 +9,8 @@ class CanvasPattern(EmbPattern):
         super().__init__(args, kwargs)
 
         # use JUMP stitches to set the pattern to a consistent bounds size
-        self.width = kwargs["width"]
-        self.height = kwargs["height"]
+        self.width = kwargs["width"] if "width" in kwargs else 0
+        self.height = kwargs["height"] if "height" in kwargs else 0
 
         self.add_stitch_absolute(JUMP, 0, 0)
         self.add_stitch_absolute(JUMP, self.width, self.height)

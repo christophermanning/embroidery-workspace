@@ -4,3 +4,4 @@ pillow~=10.0
 pyembroidery~=1.5
 streamlit~=1.39
 shapely~=2.0
+mypy~=1.13

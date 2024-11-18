@@ -11,8 +11,6 @@ class Canvas:
     # minimimum unit distance between stitches
     MU = 25
 
-    pattern = None
-
     def __init__(self, width, height, margin, initial_color):
         self.width = width
         self.height = height

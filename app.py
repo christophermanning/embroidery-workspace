@@ -2,6 +2,9 @@ import streamlit as st
 import time
 import copy
 
+from typing import cast
+from importlib.machinery import FileFinder
+
 from gif import Gif
 
 from patterns import Pattern, Canvas, CanvasPattern
@@ -27,11 +30,13 @@ import importlib
 
 patterns_dir = os.path.dirname(__file__) + "/patterns"
 packages = pkgutil.walk_packages(path=[patterns_dir])
-for importer, name, is_package in packages:
-    if is_package:
-        modules = pkgutil.iter_modules(path=[os.path.join(importer.path, name)])
+# https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo
+for module_finder, name, ispkg in packages:
+    module_finder = cast(FileFinder, module_finder)
+    if ispkg:
+        modules = pkgutil.iter_modules([os.path.join(module_finder.path, name)])
         for pkg, module_name, _ in modules:
-            importlib.import_module(module_name, pkg)
+            importlib.import_module(module_name, str(pkg))
 
 inputs = Inputs()
 args = {}
@@ -98,7 +103,7 @@ with st.sidebar:
     pattern_class = selected_pattern["class"](canvas)
 
     with st.expander("## Build", True):
-        pattern = None
+        pattern = CanvasPattern()
         start = time.time()
         pattern_snapshots = []
         with st.spinner("Generating Pattern..."):
@@ -106,7 +111,7 @@ with st.sidebar:
                 pattern_snapshots.append(copy.copy(pattern_snapshot))
                 pattern = pattern_snapshot
 
-        if pattern == None:
+        if len(pattern.stitches) <= 2:
             st.markdown(f"- :red[ERROR] no stitches generated")
         else:
             pattern_generation_time = time.time() - start

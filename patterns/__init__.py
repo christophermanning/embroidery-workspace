@@ -7,7 +7,7 @@ from .util import distance, bbox_contains
 
 
 class Pattern:
-    _patterns = []
+    _patterns: list[CanvasPattern] = []
 
     def __init__(self, canvas):
         self.canvas = canvas
@@ -22,6 +22,7 @@ class Pattern:
 
     # this returns a dict which defines pattern attribute and streamlit options
     # that will be rendered and passed as named parameters to pattern
+    @staticmethod
     def options():
         raise NotImplementedError
 
