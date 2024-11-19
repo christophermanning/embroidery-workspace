@@ -56,10 +56,7 @@ class RandomWalk(Pattern):
 
         turtle = Turtle()
 
-        cbbox = self.canvas.bbox
-        turtle.teleport(
-            random.uniform(cbbox[0], cbbox[2]), random.uniform(cbbox[1], cbbox[3])
-        )
+        turtle.teleport(*self.canvas.centroid)
 
         headings = range(0, 360, heading_step)
         for i in range(0, steps):
