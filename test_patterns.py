@@ -32,7 +32,13 @@ class TestPatterns(unittest.TestCase):
             args = {}
             if "options" in pattern:
                 for key, option in pattern["options"].items():
-                    args[key] = option["function"](**option["args"])
+                    match option["function"].__name__:
+                        case "selectbox":
+                            args[key] = option["args"]["options"][0]
+                        case "multiselect":
+                            args[key] = option["args"]["default"]
+                        case _:
+                            args[key] = option["args"]["value"]
 
             # generate the pattern
             list(pattern_class.pattern(**args))
