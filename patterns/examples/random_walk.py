@@ -41,14 +41,18 @@ class RandomWalk(Pattern):
                 },
                 "random_seed": {
                     "function": st.number_input,
-                    "args": {"label": "Random Seed", "value": None, "step": 1},
+                    "args": {
+                        "label": "Random Seed",
+                        "value": random.randint(0, 999_999_999),
+                        "step": 1,
+                    },
                 },
             },
         }
 
     def pattern(self, steps, heading_step, step_size, random_seed):
         min_step, max_step = step_size
-        random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
+        random.seed(random_seed)
 
         turtle = Turtle()
 

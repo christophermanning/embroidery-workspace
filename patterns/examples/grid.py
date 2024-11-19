@@ -50,14 +50,18 @@ class Grid(Pattern):
                 },
                 "random_seed": {
                     "function": st.number_input,
-                    "args": {"label": "Random Seed", "value": None, "step": 1},
+                    "args": {
+                        "label": "Random Seed",
+                        "value": random.randint(0, 999_999_999),
+                        "step": 1,
+                    },
                 },
             },
         }
 
     def pattern(self, width, height, dimension, path, random_seed):
         nx, ny = (dimension, dimension)
-        np.random.seed(random_seed if random_seed else random.randint(0, 999_999_999))
+        np.random.seed(random_seed)
 
         x0 = self.canvas.margin
         x1 = self.canvas.margin + width - self.canvas.margin
