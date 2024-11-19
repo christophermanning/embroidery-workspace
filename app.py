@@ -99,6 +99,10 @@ with st.sidebar:
                 label="Background Color",
             )
 
+        snap_to_grid = inputs.load(
+            st.checkbox, "snap_to_grid", value=False, label="Snap to Grid"
+        )
+
     canvas = Canvas(width, height, margin, initial_color)
     pattern_class = selected_pattern["class"](canvas)
 
@@ -114,6 +118,9 @@ with st.sidebar:
         if len(pattern.stitches) <= 2:
             st.markdown(f"- :red[ERROR] no stitches generated")
         else:
+            if snap_to_grid:
+                pattern.snap_to_grid(canvas.MU)
+
             pattern_generation_time = time.time() - start
 
             num_stitches = len(pattern.stitches)

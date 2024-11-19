@@ -21,6 +21,8 @@ class Inputs:
                             )
                         else:
                             args["value"] = int(args["value"])
+                elif func.__name__ == "checkbox":
+                    args["value"] = str(args["value"]) == "True"
                 elif func.__name__ == "number_input":
                     if type(args["value"]) == str and "." in args["value"]:
                         args["value"] = float(args["value"])

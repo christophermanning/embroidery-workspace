@@ -43,6 +43,13 @@ class CanvasPattern(EmbPattern):
 
         self.stitches = new_stitches
 
+    # snap all stitches to a grid of the specified size
+    def snap_to_grid(self, size):
+        self.stitches = self.stitches[0:2] + [
+            [round(c[0] / size) * size, round(c[1] / size) * size, c[2]]
+            for c in self.stitches[2:]
+        ]
+
     # update all stitches so the pattern is centered
     def center(self, x, y):
         if len(self.stitches) == 0:
