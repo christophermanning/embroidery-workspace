@@ -1,5 +1,7 @@
 NAME=embroidery-workspace
 
+.PHONY: test
+
 build: Dockerfile.build
 	@if [ -z "$(shell docker images -q ${NAME})" ]; then make clean; fi
 	@make -s Dockerfile.build

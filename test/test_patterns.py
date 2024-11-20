@@ -6,7 +6,7 @@ import os
 import pkgutil
 import importlib
 
-patterns_dir = os.path.dirname(__file__) + "/patterns"
+patterns_dir = os.path.dirname(__file__) + "/../patterns"
 packages = pkgutil.walk_packages(path=[patterns_dir])
 for importer, name, is_package in packages:
     if is_package:
