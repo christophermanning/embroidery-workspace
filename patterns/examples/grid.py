@@ -10,7 +10,7 @@ class Grid(Pattern):
     def options():
         return {
             "label": "Grid",
-            "options": {
+            "inputs": {
                 "width": {
                     "function": st.slider,
                     "args": {

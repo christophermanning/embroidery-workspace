@@ -8,7 +8,7 @@ class RandomWalk(Pattern):
     def options():
         return {
             "label": "Random Walk",
-            "options": {
+            "inputs": {
                 "steps": {
                     "function": st.slider,
                     "args": {

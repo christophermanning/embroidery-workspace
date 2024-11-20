@@ -63,10 +63,9 @@ with st.sidebar:
         )
         selected_pattern = next(d for d in patterns if d["label"] == selected_pattern)
 
-        if "options" in selected_pattern:
-            for key, option in selected_pattern["options"].items():
-                # this will display a `st.` input defined in the pattern
-                args[key] = inputs.load(option["function"], key, **option["args"])
+        # display all `st.` inputs defined in the pattern `options()`
+        for key, option in selected_pattern["inputs"].items():
+            args[key] = inputs.load(option["function"], key, **option["args"])
 
     with st.expander("## Canvas"):
         col1, col2, col3 = st.columns(3)

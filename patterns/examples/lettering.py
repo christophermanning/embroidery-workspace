@@ -14,7 +14,7 @@ class Lettering(Pattern):
     def options():
         return {
             "label": "Lettering",
-            "options": {
+            "inputs": {
                 "text": {
                     "function": st.text_area,
                     "args": {

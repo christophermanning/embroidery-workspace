@@ -30,8 +30,8 @@ class TestPatterns(unittest.TestCase):
             canvas = Canvas(width, height, margin, initial_color)
             pattern_class = pattern["class"](canvas)
             args = {}
-            if "options" in pattern:
-                for key, option in pattern["options"].items():
+            if "inputs" in pattern:
+                for key, option in pattern["inputs"].items():
                     match option["function"].__name__:
                         case "selectbox":
                             args[key] = option["args"]["options"][0]

@@ -7,7 +7,7 @@ class HilbertCurve(Pattern):
     def options():
         return {
             "label": "Hilbert Curve",
-            "options": {
+            "inputs": {
                 "iterations": {
                     "function": st.slider,
                     "args": {

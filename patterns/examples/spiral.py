@@ -7,8 +7,8 @@ class Spiral(Pattern):
     def options():
         return {
             "label": "Spiral",
-            # each entry in the `options` dict is a streamlit input function
-            "options": {
+            # each entry in the `inputs` dict is a streamlit input function
+            "inputs": {
                 "steps": {
                     "function": st.slider,
                     "args": {
