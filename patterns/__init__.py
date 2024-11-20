@@ -22,6 +22,9 @@ class Pattern:
 
     # this returns a dict which defines pattern attribute and streamlit options
     # that will be rendered and passed as named parameters to pattern
+    #
+    # this is a staticmethod because we want to fetch the configuration before
+    # initializing the class
     @staticmethod
     def options():
         raise NotImplementedError
