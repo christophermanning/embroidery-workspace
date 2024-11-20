@@ -39,10 +39,14 @@ class Pattern:
             soptions["class"] = subclass
 
             if "label" not in soptions:
-                raise ValueError(f"{subclass.__name__}#options() is missing a `label` key")
+                raise ValueError(
+                    f"{subclass.__name__}#options() is missing a `label` key"
+                )
 
             if "inputs" not in soptions:
-                raise ValueError(f"{subclass.__name__}#options() is missing an `inputs` dictionary")
+                raise ValueError(
+                    f"{subclass.__name__}#options() is missing an `inputs` dictionary"
+                )
 
             options.append(soptions)
         return options
