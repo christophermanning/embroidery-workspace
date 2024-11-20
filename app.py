@@ -51,7 +51,7 @@ with st.sidebar:
     with st.expander("## Pattern", True):
         patterns = Pattern.patterns()
         pattern_labels = [d["label"] for d in patterns]
-        selected_pattern = inputs.load(
+        selected_pattern_name = inputs.load(
             st.selectbox,
             "pattern",
             label="Pattern",
@@ -61,10 +61,12 @@ with st.sidebar:
             # when the pattern changes, unset any existing query parameters
             on_change=lambda: st.query_params.from_dict({}),
         )
-        selected_pattern = next(d for d in patterns if d["label"] == selected_pattern)
+        selected_pattern_options = next(
+            d for d in patterns if d["label"] == selected_pattern_name
+        )
 
         # display all `st.` inputs defined in the pattern `options()`
-        for key, option in selected_pattern["inputs"].items():
+        for key, option in selected_pattern_options["inputs"].items():
             args[key] = inputs.load(option["function"], key, **option["args"])
 
     with st.expander("## Canvas"):
@@ -103,7 +105,7 @@ with st.sidebar:
         )
 
     canvas = Canvas(width, height, margin, initial_color)
-    pattern_class = selected_pattern["class"](canvas)
+    pattern_class = selected_pattern_options["class"](canvas)
 
     with st.expander("## Build", True):
         pattern = CanvasPattern()
@@ -158,7 +160,7 @@ with st.sidebar:
             default=["PNG"],
         )
 
-        file_basename = selected_pattern["label"].lower()
+        file_basename = selected_pattern_options["label"].lower()
 
         if pattern_class.basename != None:
             file_basename = pattern_class.basename
