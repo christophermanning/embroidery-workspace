@@ -1,10 +1,11 @@
-import unittest
-
-from patterns import Pattern, Canvas
-
 import os
 import pkgutil
 import importlib
+
+import unittest
+
+from patterns import Pattern, Canvas
+from inputs import Inputs
 
 patterns_dir = os.path.dirname(__file__) + "/../patterns"
 packages = pkgutil.walk_packages(path=[patterns_dir])
@@ -26,22 +27,33 @@ class TestPatterns(unittest.TestCase):
 
         self.assertGreater(len(patterns), 0, "no patterns found")
 
+        inputs = Inputs()
+
         for pattern in patterns:
             canvas = Canvas(width, height, margin, initial_color)
             pattern_class = pattern["class"](canvas)
-            args = {}
+            args = []
             if "inputs" in pattern:
+                # get default input values to manually construct the args
+                # because loading input options in the test env causes streamlit warnings
                 for key, option in pattern["inputs"].items():
-                    match option["function"].__name__:
-                        case "selectbox":
-                            args[key] = option["args"]["options"][0]
-                        case "multiselect":
-                            args[key] = option["args"]["default"]
-                        case _:
-                            args[key] = option["args"]["value"]
+                    option["args"] = inputs.input_value(
+                        option["function"].__name__, None, None, **option["args"]
+                    )[0]
+
+                    if "value" in option["args"]:
+                        args.append(option["args"]["value"])
+                    else:
+                        match option["function"].__name__:
+                            case "selectbox":
+                                args.append(option["args"]["options"][0])
+                            case "multiselect":
+                                args.append(option["args"]["default"])
+                            case _:
+                                args.append("")
 
             # generate the pattern
-            list(pattern_class.pattern(**args))
+            list(pattern_class.pattern(*args))
 
             self.assertGreater(
                 len(canvas.pattern.stitches),

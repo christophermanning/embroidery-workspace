@@ -52,7 +52,7 @@ class Grid(Pattern):
                     "function": st.number_input,
                     "args": {
                         "label": "Random Seed",
-                        "value": random.randint(0, 999_999_999),
+                        "value": lambda: random.randint(0, 999_999_999),
                         "step": 1,
                     },
                 },
