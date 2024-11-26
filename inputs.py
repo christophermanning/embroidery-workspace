@@ -1,6 +1,7 @@
 import streamlit as st
 import urllib
 from typing import Tuple
+from ast import literal_eval
 
 
 class Inputs:
@@ -23,8 +24,21 @@ class Inputs:
         query_param_value: str | int | float,
         **args,
     ) -> Tuple[dict, str | int | float]:
-        if func_name == "selectbox":
-            pass
+        if type(query_param_value) == str and len(query_param_value) > 100:
+            raise ValueError(f"query param is too long for {func_name}")
+
+        if func_name == "text_area" or func_name == "color_picker":
+            if query_param_value:
+                args["value"] = str(query_param_value)
+        elif func_name == "selectbox":
+            if query_param_value and query_param_value in args["options"]:
+                args["index"] = args["options"].index(query_param_value)
+        elif func_name == "multiselect":
+            if query_param_value:
+                args["default"] = []
+                for value in literal_eval(str(query_param_value)):
+                    if value in args["options"]:
+                        args["default"].append(value)
         elif func_name == "slider":
             if query_param_value:
                 if type(query_param_value) == str:
@@ -34,7 +48,6 @@ class Inputs:
                         )
                     else:
                         args["value"] = int(query_param_value)
-
         elif func_name == "checkbox":
             if query_param_value:
                 args["value"] = str(query_param_value) == "True"
@@ -53,6 +66,8 @@ class Inputs:
                 value = args["value"]()
                 session_state_value = value
                 args["value"] = value
+        else:
+            raise ValueError(f"unknown input function: {func_name}")
 
         return args, session_state_value
 

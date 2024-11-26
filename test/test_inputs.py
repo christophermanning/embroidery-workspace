@@ -9,14 +9,34 @@ class TestInputs(unittest.TestCase):
 
         cases = [
             {
-                "name": "selectbox: noop",
+                "name": "text_area: set value",
+                "input": [
+                    "text_area",
+                    None,
+                    "123",
+                    {},
+                ],
+                "expected": ({"value": "123"}, None),
+            },
+            {
+                "name": "multiselect: set values",
+                "input": [
+                    "multiselect",
+                    None,
+                    "['a','b','unknown']",
+                    {"options": ["a", "b", "c"]},
+                ],
+                "expected": ({"options": ["a", "b", "c"], "default": ["a", "b"]}, None),
+            },
+            {
+                "name": "selectbox: set default",
                 "input": [
                     "selectbox",
                     123,
-                    456,
-                    {},
+                    "c",
+                    {"options": ["a", "b", "c"]},
                 ],
-                "expected": ({}, 123),
+                "expected": ({"index": 2, "options": ["a", "b", "c"]}, 123),
             },
             {
                 "name": "number_input: no value set",
