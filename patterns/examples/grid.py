@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+from shapely.geometry import Point
 
 from patterns import Pattern
 
@@ -56,10 +57,14 @@ class Grid(Pattern):
                         "step": 1,
                     },
                 },
+                "debug": {
+                    "function": st.checkbox,
+                    "args": {"label": "Debug", "value": False},
+                },
             },
         }
 
-    def pattern(self, width, height, dimension, path, random_seed):
+    def pattern(self, width, height, dimension, path, random_seed, debug):
         nx, ny = (dimension, dimension)
         np.random.seed(random_seed)
 
@@ -126,6 +131,16 @@ class Grid(Pattern):
             raise ValueError("Unknown Path Type")
 
         for i, v in enumerate(coords):
-            self.canvas.pattern += (v[0], v[1])
+            c = (v[0], v[1])
+
+            if debug:
+                if i == 0 or i == len(coords) - 1:
+                    ring = Point(c).buffer(20).simplify(1)
+                    self.canvas.pattern.add_block([p for p in ring.exterior.coords])
+
+                ring = Point(c).buffer(10).simplify(10)
+                self.canvas.pattern.add_block([p for p in ring.exterior.coords])
+
+            self.canvas.pattern += c
 
         yield self.canvas.pattern
