@@ -16,8 +16,23 @@ class Turtle(TNavigator):
 
     def undo(self):
         self.points = self.points[0:-1]
-        self.teleport(*self.points[-1])
+        if len(self.points) > 0:
+            self.teleport(*self.points[-1])
 
+    # setting max_length will split a single line into multiple if the length of the line is longer than the max_length
+    def forward(self, distance, max_length=None):
+        pos0 = self.pos()
+        super().forward(distance)
+        if max_length is not None:
+            pos1 = self.pos()
+            ls = LineString([pos0, pos1])
+            if ls.length > max_length:
+                self.undo()
+                ls = ls.segmentize(max_length)
+                for [x, y] in ls.coords:
+                    super().goto(x, y)
+
+    # update all existing points so they are uniformly centered around x,y
     def center(self, x, y):
         if len(self.points) == 0:
             return None
