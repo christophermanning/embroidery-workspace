@@ -2,7 +2,7 @@ from pyembroidery import EmbPattern, JUMP
 import random
 from patterns.util import distance
 
-from patterns import CanvasPattern
+from patterns import CanvasPattern, Turtle
 
 
 # Canvas represents the embroidery suface and the dimensions are machine specific
@@ -11,7 +11,9 @@ class Canvas:
     # minimimum unit distance between stitches
     MU = 25
 
-    def __init__(self, width: int, height: int, margin: int, initial_color: str):
+    def __init__(
+        self, width: int, height: int, margin: int = 10, initial_color: str = "#DDDDDD"
+    ):
         self.width = width
         self.height = height
         self.centroid = (width / 2, height / 2)
@@ -19,6 +21,9 @@ class Canvas:
 
         # setting the pattern bounds to the canvas size ensures a consistant output
         self.pattern = CanvasPattern(width=width, height=height)
+
+        # turtle instructions can be written to the pattern using turtle.write
+        self.turtle = Turtle()
 
         # the bounding box of the content area of the canvas
         self.bbox = [

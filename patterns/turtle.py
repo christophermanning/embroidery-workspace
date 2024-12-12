@@ -1,5 +1,5 @@
 # https://docs.python.org/3/library/turtle.html
-from turtle import TNavigator
+from turtle import TNavigator, Vec2D
 
 from shapely import LineString, affinity
 
@@ -11,7 +11,8 @@ class Turtle(TNavigator):
         self.points = []
 
     def _goto(self, end):
-        super()._goto(end)
+        # round the values to simplify coordinates and remove any -0 values that aren't needed
+        super()._goto(Vec2D(round(end[0], 2), round(end[1], 2)))
         self.points.append(self.pos())
 
     def undo(self):
@@ -54,3 +55,8 @@ class Turtle(TNavigator):
         self.points = [c + tuple(self.points[i][2:]) for i, c in enumerate(ls.coords)]
 
         return (offset_x, offset_y)
+
+    # helper function to write all turtle stitches to the pattern
+    def write(self, pattern):
+        for i, pos in enumerate(self.points):
+            pattern += pos

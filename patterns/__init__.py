@@ -1,8 +1,8 @@
 import os
 
+from .turtle import Turtle
 from .canvas_pattern import CanvasPattern
 from .canvas import Canvas
-from .turtle import Turtle
 from .util import distance, bbox_contains
 
 

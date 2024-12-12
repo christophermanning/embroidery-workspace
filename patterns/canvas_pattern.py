@@ -17,15 +17,25 @@ class CanvasPattern(EmbPattern):
 
     # get the bounds of stiches; ignoring the 2 initial JUMP stitches to set the bounds
     def stitch_bounds(self):
-        bounds = LineString(self.stitches[2:]).bounds
+        stitches = self.stitches[2:]
+
+        if len(stitches) < 2:
+            return (0, 0)
+
+        bounds = LineString(stitches).bounds
         return (bounds[2] - bounds[0], bounds[3] - bounds[1])
 
     # are the pattern stitches within the bounds of the canvas width and height
     def in_bounds(self):
+        stitches = self.stitches[2:]
+
+        if len(stitches) < 2:
+            return True
+
         container = Polygon(
             [[0, 0], [self.width, 0], [self.width, self.height], [0, self.height]]
         )
-        return container.contains(LineString(self.stitches[2:]))
+        return container.contains(LineString(stitches))
 
     # repeat the pattern's first and last two stitches to secure the thread
     def add_lock_stitches(self, num_overlaps=2):
