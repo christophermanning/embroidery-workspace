@@ -12,6 +12,7 @@ from patterns import Pattern, Canvas, CanvasPattern
 from PIL import Image
 from PIL.PngImagePlugin import PngInfo
 
+from machine import Machine
 from util import clean_basename
 from inputs import Inputs
 
@@ -38,6 +39,7 @@ for module_finder, name, ispkg in packages:
         for pkg, module_name, _ in modules:
             importlib.import_module(module_name, str(pkg))
 
+machine = Machine()
 inputs = Inputs()
 args = {}
 
@@ -73,11 +75,11 @@ with st.sidebar:
         col1, col2, col3 = st.columns(3)
         with col1:
             width = inputs.load(
-                st.number_input, "canvas_width", value=1000, label="Width"
+                st.number_input, "canvas_width", value=machine.width, label="Width"
             )
         with col2:
             height = inputs.load(
-                st.number_input, "canvas_height", value=1000, label="Height"
+                st.number_input, "canvas_height", value=machine.height, label="Height"
             )
         with col3:
             margin = inputs.load(
@@ -135,8 +137,13 @@ with st.sidebar:
             if not canvas.pattern.in_bounds():
                 pattern_details.append(f"- :red[ERROR] pattern does not fit in bounds")
 
-            pattern_details.append(f"- `{round(pattern_generation_time, 2)}` seconds")
+            pattern_details.append(
+                f"- _Elapsed_ `{round(pattern_generation_time, 2)}` seconds"
+            )
             pattern_details.append(f"- _Stitches_ `{num_stitches}`")
+            pattern_details.append(
+                f"- _Duration_ `{machine.humanize_duration(num_stitches)}`"
+            )
 
             if num_threads > 1:
                 pattern_details.append(f"- _Threads_ `{num_threads}`")

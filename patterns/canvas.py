@@ -6,7 +6,6 @@ from patterns import CanvasPattern, Turtle
 
 
 # Canvas represents the embroidery suface and the dimensions are machine specific
-# 4 x 4 size hoop with a width and height of 1000 supports a maximum of 30,000 stitches.
 class Canvas:
     # minimimum unit distance between stitches
     MU = 25
