@@ -80,12 +80,13 @@ class Grid(Pattern):
         x0 = self.canvas.margin
         x1 = self.canvas.margin + width - self.canvas.margin
         x, step = np.linspace(x0, x1, nx, True, True)
-        self.log.append(f"_Stitch Distance_ `{round(step,2)}`")
+        self.log.append(f"_Stitch Distance X_ `{round(step,2)}`")
 
         y0 = self.canvas.margin
         y1 = self.canvas.margin + height - self.canvas.margin
-        y = np.linspace(y0, y1, ny)
+        y, step = np.linspace(y0, y1, ny, True, True)
         xv, yv = np.meshgrid(x, y)
+        self.log.append(f"_Stitch Distance Y_ `{round(step,2)}`")
 
         coords = np.vstack(list(zip(xv.ravel(), yv.ravel())))
 
