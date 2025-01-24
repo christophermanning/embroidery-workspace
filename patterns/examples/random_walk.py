@@ -16,7 +16,7 @@ class RandomWalk(Pattern):
                         "min_value": 10,
                         "max_value": 2000,
                         "step": 1,
-                        "value": 500,
+                        "value": 1000,
                     },
                 },
                 "heading_step": {
@@ -33,7 +33,7 @@ class RandomWalk(Pattern):
                     "function": st.slider,
                     "args": {
                         "label": "Step Size",
-                        "min_value": 10,
+                        "min_value": 20,
                         "max_value": 100,
                         "step": 1,
                         "value": (20, 40),
@@ -56,7 +56,7 @@ class RandomWalk(Pattern):
 
         turtle = Turtle()
 
-        turtle.teleport(*self.canvas.centroid)
+        turtle.goto(*self.canvas.centroid)
 
         headings = range(0, 360, heading_step)
         for i in range(0, steps):
