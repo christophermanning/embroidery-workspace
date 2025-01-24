@@ -1,3 +1,7 @@
+[project]
+name = "embroidery-workspace"
+version = "0.1.0"
+
 [[tool.mypy.overrides]]
 module = "pyembroidery.*"
 ignore_missing_imports = true
@@ -6,3 +10,5 @@ ignore_missing_imports = true
 module = "shapely.*"
 ignore_missing_imports = true
 
+[tool.setuptools.packages.find]
+exclude = ["pages*"]
