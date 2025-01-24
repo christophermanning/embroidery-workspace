@@ -126,7 +126,8 @@ class Grid(Pattern):
             for k in range(0, dimension * 2):
                 tmp = []
 
-                for j in range(0, k):
+                # increment k so the first, 0, row is created
+                for j in range(0, k + 1):
                     i = k - j
                     if i < dimension and j < dimension:
                         tmp.append(coords[i * dimension + j])
