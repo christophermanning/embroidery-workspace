@@ -40,7 +40,7 @@ class Grid(Pattern):
                         "min_value": 2,
                         "max_value": 50,
                         "step": 1,
-                        "value": 10,
+                        "value": 41,
                     },
                 },
                 "path": {
@@ -48,10 +48,10 @@ class Grid(Pattern):
                     "args": {
                         "label": "Path",
                         "options": [
+                            "Diagonal",
                             "Random",
                             "Horizontal",
                             "Spiral",
-                            "Diagonal",
                             "DFS",
                             "BFS",
                         ],
