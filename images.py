@@ -27,7 +27,9 @@ with sync_playwright() as p:
 
     patterns = ["Grid", "Hilbert+Curve", "Random+Walk", "Spiral"]
     for pattern in patterns:
-        page.goto(f"http://localhost:8501/?pattern={pattern}&random_seed=1")
+        page.goto(
+            f"http://localhost:8501/?pattern={pattern}&random_seed=1&canvas_margin=0"
+        )
         page.get_by_test_id("completed").wait_for()
         basename = clean_basename(pattern)
         subprocess.run(
