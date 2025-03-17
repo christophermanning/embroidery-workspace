@@ -10,10 +10,10 @@ from PIL import Image, ImageDraw, ImageFont
 from shapely import LineString
 
 
-class Lettering(Pattern):
+class Text(Pattern):
     def options():
         return {
-            "label": "Lettering",
+            "label": "Text",
             "inputs": {
                 "text": {
                     "function": st.text_area,

@@ -13,7 +13,7 @@ with sync_playwright() as p:
     page = browser.new_page(color_scheme="dark", viewport=screenshot_size)
 
     page.goto(
-        f"http://localhost:8501/?pattern=Lettering&text=+Hello%0AWorld%0A++++++%3A%29"
+        f"http://localhost:8501/?pattern=Text&text=+Hello%0AWorld%0A++++++%3A%29"
     )
     page.get_by_test_id("completed").wait_for()
     page.screenshot(
