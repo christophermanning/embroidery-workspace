@@ -1,13 +1,12 @@
 import streamlit as st
 
 import numpy as np
-import random
 
 from patterns import Pattern, bbox_contains
 
-from PIL import Image, ImageDraw, ImageFont
+from patterns.tsp import tsp
 
-from shapely import LineString
+from PIL import Image, ImageDraw, ImageFont
 
 
 class Text(Pattern):
@@ -22,12 +21,17 @@ class Text(Pattern):
                         "value": " Hello\nWorld",
                     },
                 },
+                "cross_stitch": {
+                    "function": st.checkbox,
+                    "args": {
+                        "label": "Cross Stitch",
+                        "value": True,
+                    },
+                },
             },
         }
 
-    def pattern(self, text):
-        random.seed(1)
-
+    def pattern(self, text, cross_stitch):
         # create a black and white image +1 in size to match the 0 based lists
         image = Image.new("1", (self.canvas.width + 1, self.canvas.height + 1), "white")
         draw = ImageDraw.Draw(image)
@@ -47,25 +51,31 @@ class Text(Pattern):
         draw.text((self.canvas.margin, self.canvas.margin), text, font=font)
 
         # create an evenly spaced grid of points
-        x = np.linspace(0, self.canvas.width, 100)
-        y = np.linspace(0, self.canvas.height, 100)
+        x = np.linspace(0, self.canvas.width, 50)
+        y = np.linspace(0, self.canvas.height, 50)
         xv, yv = np.meshgrid(x, y)
         coords = list(np.vstack(list(zip(xv.ravel(), yv.ravel()))))
+
         # only use coords that overlap with a black image pixel
         coords = [c for c in coords if image.getpixel(c) == 0x000000]
 
+        # create an optimized path using a TSP solver
+        coords = tsp(coords)
+
+        turtle = self.canvas.turtle
+
         for i, c in enumerate(coords):
-            line = LineString([self.canvas.pattern.stitches[-1][0:2], c]).segmentize(10)
-
-            # if every line segment is not overlayed on the text, add a random color to the pattern to change the thread
-            if not all([image.getpixel(c) == 0x000000 for c in line.coords]):
-                self.canvas.pattern += f"#{random.randint(0x000000, 0xFFFFFF):6x}"
-
-            self.canvas.pattern += tuple(c)
+            turtle.goto(*c)
+            if cross_stitch:
+                for z in range(0, 4):
+                    turtle.setheading(45 + (z * 90))
+                    turtle.forward(self.canvas.MU)
+                    turtle.backward(self.canvas.MU)
 
             if i % 50 == 0:
                 yield self.canvas.pattern
 
-        self.canvas.pattern.center(*self.canvas.centroid)
+        turtle.center(*self.canvas.centroid)
+        turtle.write(self.canvas.pattern)
 
         yield self.canvas.pattern

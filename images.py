@@ -12,9 +12,7 @@ with sync_playwright() as p:
     screenshot_size = {"width": 1200, "height": 1100}
     page = browser.new_page(color_scheme="dark", viewport=screenshot_size)
 
-    page.goto(
-        f"http://localhost:8501/?pattern=Text&text=+Hello%0AWorld%0A++++++%3A%29"
-    )
+    page.goto(f"http://localhost:8501/?pattern=Text&text=+Hello%0AWorld")
     page.get_by_test_id("completed").wait_for()
     page.screenshot(
         path="screenshot.png", full_page=True, clip={"x": 1, "y": 10} | screenshot_size
