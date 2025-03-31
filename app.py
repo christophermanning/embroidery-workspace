@@ -29,8 +29,11 @@ import os
 import pkgutil
 import importlib
 
-patterns_dir = os.path.dirname(__file__) + "/patterns"
-packages = pkgutil.walk_packages(path=[patterns_dir])
+patterns_dir = os.path.dirname(os.path.realpath(__file__)) + "/patterns"
+packages = list(pkgutil.walk_packages(path=[patterns_dir]))
+if len(packages) < 1:
+    raise ValueError(f"No patterns found in {patterns_dir}")
+
 # https://docs.python.org/3/library/pkgutil.html#pkgutil.ModuleInfo
 for module_finder, name, ispkg in packages:
     module_finder = cast(FileFinder, module_finder)
@@ -52,6 +55,9 @@ st.markdown(
 with st.sidebar:
     with st.expander("## Pattern", True):
         patterns = Pattern.patterns()
+        if len(patterns) < 1:
+            raise ValueError("No patterns loaded")
+
         pattern_labels = [d["label"] for d in patterns]
         selected_pattern_name = inputs.load(
             st.selectbox,
