@@ -15,6 +15,10 @@ class Turtle(TNavigator):
         super()._goto(Vec2D(round(end[0], 2), round(end[1], 2)))
         self.points.append(self.pos())
 
+    def reset(self):
+        super().reset()
+        self.points = []
+
     def undo(self):
         self.points = self.points[0:-1]
         if len(self.points) > 0:
