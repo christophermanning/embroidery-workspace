@@ -4,6 +4,7 @@ from patterns import Pattern
 
 
 class Diagnostics(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Diagnostics",

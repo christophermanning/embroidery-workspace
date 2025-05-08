@@ -4,6 +4,7 @@ from patterns import Pattern, Turtle
 
 
 class Spiral(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Spiral",

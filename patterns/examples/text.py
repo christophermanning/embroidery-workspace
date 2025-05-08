@@ -10,6 +10,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class Text(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Text",

@@ -20,7 +20,7 @@ format: build
 	@docker run $(RUN_ARGS) black . --exclude=""
 
 lint: build
-	@docker run $(RUN_ARGS) mypy app.py
+	@docker run $(RUN_ARGS) mypy app.py patterns/*.py patterns/examples/*.py
 
 shell: build
 	@docker run $(RUN_ARGS) /bin/bash

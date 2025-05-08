@@ -9,6 +9,7 @@ import numpy as np
 
 
 class Grid(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Grid",
@@ -152,7 +153,7 @@ class Grid(Pattern):
                 # matrix of size m x n
                 def __init__(self, matrix: list[list[tuple[float, float, float]]]):
                     self.matrix = matrix
-                    self.visited = set()
+                    self.visited: set[tuple[float, float]] = set()
 
                 def valid(self, mn: tuple[int, int]):
                     in_bounds = 0 <= mn[0] < len(self.matrix[0]) and 0 <= mn[1] < len(
@@ -173,7 +174,7 @@ class Grid(Pattern):
                             return path
 
                         for d in [(1, 1), (1, 0), (-1, -1), (-1, 0)]:
-                            adjacent_cell = tuple(map(sum, zip(current, d)))
+                            adjacent_cell = (current[0] + d[0], current[1] + d[1])
                             if self.valid(adjacent_cell):
                                 (m, n) = adjacent_cell[0:2]
                                 queue.append((adjacent_cell, path + [adjacent_cell]))
@@ -201,7 +202,7 @@ class Grid(Pattern):
                         # find the direction that will maximize the cost
                         # up, right, down, left
                         for d in [(1, 1), (1, 0), (-1, -1), (-1, 0)]:
-                            adjacent_cell = tuple(map(sum, zip(mn, d)))
+                            adjacent_cell = (mn[0] + d[0], mn[1] + d[1])
 
                             if self.valid(adjacent_cell):
                                 inner_cost, path = _dfs(

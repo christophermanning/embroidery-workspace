@@ -5,6 +5,7 @@ from patterns import Pattern, Turtle, bbox_contains
 
 
 class RandomWalk(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Random Walk",

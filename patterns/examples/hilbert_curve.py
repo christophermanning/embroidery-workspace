@@ -4,6 +4,7 @@ from patterns import Pattern, Turtle
 
 
 class HilbertCurve(Pattern):
+    @staticmethod
     def options():
         return {
             "label": "Hilbert Curve",

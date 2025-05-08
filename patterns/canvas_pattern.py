@@ -6,6 +6,9 @@ from shapely import Polygon, LineString, affinity
 # add custom methods to EmbPattern
 class CanvasPattern(EmbPattern):
     def __init__(self, *args, **kwargs):
+        # initialize stitches first for type hinting
+        self.stitches = []
+
         super().__init__(args, kwargs)
 
         # use JUMP stitches to set the pattern to a consistent bounds size
@@ -16,7 +19,7 @@ class CanvasPattern(EmbPattern):
         self.add_stitch_absolute(JUMP, self.width, self.height)
 
     # get the bounds of stiches; ignoring the 2 initial JUMP stitches to set the bounds
-    def stitch_bounds(self):
+    def stitch_bounds(self) -> tuple[float, float]:
         stitches = self.stitches[2:]
 
         if len(stitches) < 2:
@@ -26,7 +29,7 @@ class CanvasPattern(EmbPattern):
         return (bounds[2] - bounds[0], bounds[3] - bounds[1])
 
     # are the pattern stitches within the bounds of the canvas width and height
-    def in_bounds(self):
+    def in_bounds(self) -> bool:
         stitches = self.stitches[2:]
 
         if len(stitches) < 2:
@@ -38,7 +41,7 @@ class CanvasPattern(EmbPattern):
         return container.contains(LineString(stitches))
 
     # repeat the pattern's first and last two stitches to secure the thread
-    def add_lock_stitches(self, num_overlaps=2):
+    def add_lock_stitches(self, num_overlaps=2) -> None:
         new_stitches = self.stitches[0:2]
 
         for _ in range(num_overlaps):
@@ -54,14 +57,14 @@ class CanvasPattern(EmbPattern):
         self.stitches = new_stitches
 
     # snap all stitches to a grid of the specified size
-    def snap_to_grid(self, size):
+    def snap_to_grid(self, size) -> None:
         self.stitches = self.stitches[0:2] + [
             [round(c[0] / size) * size, round(c[1] / size) * size, c[2]]
             for c in self.stitches[2:]
         ]
 
     # update all stitches so the pattern is centered
-    def center(self, x, y):
+    def center(self, x, y) -> tuple[float, float] | None:
         if len(self.stitches) == 0:
             return None
 

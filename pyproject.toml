@@ -10,5 +10,9 @@ ignore_missing_imports = true
 module = "shapely.*"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "ortools.*"
+ignore_missing_imports = true
+
 [tool.setuptools.packages.find]
 exclude = ["pages*"]
