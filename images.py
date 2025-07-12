@@ -23,7 +23,7 @@ with sync_playwright() as p:
     )
     print(f"generated application thumbnail")
 
-    patterns = ["Grid", "Hilbert+Curve", "Random+Walk", "Spiral"]
+    patterns = ["Grid", "Hilbert+Curve", "Random+Walk", "Spiral", "Sierpiński Triangle"]
     for pattern in patterns:
         page.goto(
             f"http://localhost:8501/?pattern={pattern}&random_seed=1&canvas_margin=0"
