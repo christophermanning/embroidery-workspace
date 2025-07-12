@@ -39,10 +39,11 @@ with st.container():
             pes_file = images[i][0:-4] + ".pes"
             if os.path.isfile(pes_file):
                 with open(pes_file, "rb") as f:
+                    file = os.path.basename(pes_file)
                     col.download_button(
-                        "Download .pes",
+                        f"Download {file}",
                         f,
-                        file_name=os.path.basename(pes_file),
+                        file_name=file,
                         key=f"download{i}",
                     )
 
