@@ -180,7 +180,7 @@ with st.sidebar:
     with st.expander("## Output", True):
         output_formats = st.multiselect(
             "Formats",
-            options=["PNG", "PES", "GIF"],
+            options=["PNG", "PES", "GIF", "GCODE"],
             default=["PNG"],
         )
 
@@ -241,6 +241,21 @@ with st.sidebar:
             st.markdown(
                 f" - `{filename_png}`\n    - `{round(png_generation_time, 2)}` seconds"
             )
+
+        filename_gcode = None
+        if "GCODE" in output_formats:
+            filename_gcode = f"build/{file_basename}.txt"
+            start = time.time()
+            with open(filename_gcode, "w") as file:
+                instructions = [
+                    "\n".join([f"G0 X{c[0]} Y{c[1]}" for c in line])
+                    for line in pattern.lines()
+                ]
+                file.write("\nM06\n".join(instructions))
+                gcode_generation_time = time.time() - start
+                st.markdown(
+                    f" - `{filename_gcode}`\n   - `{round(gcode_generation_time, 2)}` seconds\n"
+                )
 
         filename_gif = None
         if "GIF" in output_formats:
