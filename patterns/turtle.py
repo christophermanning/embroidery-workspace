@@ -24,18 +24,33 @@ class Turtle(TNavigator):
         if len(self.points) > 0:
             self.teleport(*self.points[-1])
 
+    def _segmentize(self, p1, p2, max_length):
+        if max_length is None:
+            return
+
+        ls = LineString([p1, p2])
+        if ls.length > max_length:
+            self.undo()
+            ls = ls.segmentize(max_length)
+            # # don't duplicate the current position
+            # for [x, y] in (ls.coords if len(self.points) == 0 else ls.coords[1:]):
+            for [x, y] in ls.coords[1:]:
+                super().goto(x, y)
+
     # setting max_length will split a single line into multiple if the length of the line is longer than the max_length
     def forward(self, distance, max_length=None):
-        pos0 = self.pos()
+        # the first forward starts at 0,0 by default
+        if len(self.points) == 0:
+            self.goto(0, 0)
+
+        p1 = self.pos()
         super().forward(distance)
-        if max_length is not None:
-            pos1 = self.pos()
-            ls = LineString([pos0, pos1])
-            if ls.length > max_length:
-                self.undo()
-                ls = ls.segmentize(max_length)
-                for [x, y] in ls.coords:
-                    super().goto(x, y)
+        self._segmentize(p1, self.pos(), max_length)
+
+    def goto(self, x, y=None, max_length=None):
+        p1 = self.pos()
+        super().goto(x, y)
+        self._segmentize(p1, self.pos(), max_length)
 
     # update all existing points so they are uniformly centered around x,y
     def center(self, x, y):
