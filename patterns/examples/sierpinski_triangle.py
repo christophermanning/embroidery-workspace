@@ -4,6 +4,7 @@ import random
 
 from patterns import Pattern, Turtle
 
+
 class SierpinskiTriangle(Pattern):
     @staticmethod
     def options():
