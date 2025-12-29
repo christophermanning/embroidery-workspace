@@ -140,6 +140,16 @@ with st.sidebar:
             for log in pattern_class.log:
                 pattern_details.append(f"- {log}")
 
+            num_duplicates = 0
+            for i, stitch in enumerate(pattern.stitches):
+                if i > 0 and stitch == pattern.stitches[i - 1]:
+                    num_duplicates += 1
+
+            if num_duplicates:
+                pattern_details.append(
+                    f"- :red[ERROR] {num_duplicates} duplicate consecutive stitches generated"
+                )
+
             if not canvas.pattern.in_bounds():
                 pattern_details.append(f"- :red[ERROR] pattern does not fit in bounds")
 
