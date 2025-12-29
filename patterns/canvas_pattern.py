@@ -81,7 +81,8 @@ class CanvasPattern(EmbPattern):
 
         # restore any additional elements that were in self.stitches
         self.stitches = self.stitches[0:2] + [
-            list(c) + self.stitches[2:][i][2:] for i, c in enumerate(ls.coords)
+            list([round(c[0], 2), round(c[1], 2)]) + self.stitches[2:][i][2:]
+            for i, c in enumerate(ls.coords)
         ]
 
         return (offset_x, offset_y)
