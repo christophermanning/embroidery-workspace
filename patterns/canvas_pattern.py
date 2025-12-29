@@ -85,3 +85,13 @@ class CanvasPattern(EmbPattern):
         ]
 
         return (offset_x, offset_y)
+
+    def lines(self) -> list[list[tuple[float, float]]]:
+        lines = [[]]
+        for i, c in enumerate(self.stitches[2:]):
+            if i > 0 and self.stitches[2:][i - 1][2] != c[2]:
+                lines.append([])
+
+            lines[-1].append((c[0], c[1]))
+
+        return lines

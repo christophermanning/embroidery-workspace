@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import copy
+import json
 
 from typing import cast
 from importlib.machinery import FileFinder
@@ -230,6 +231,9 @@ with st.sidebar:
                 # save pattern generation parameters in the image to restore settings from an image
                 targetImage = Image.open(filename_png)
                 metadata = PngInfo()
+                # flatten pattern.lines() into list[list[float]])
+                lines = [[x for x in line for x in x] for line in pattern.lines()]
+                metadata.add_text("embroidery-workspace/v1/lines", json.dumps(lines))
                 metadata.add_text("embroidery-workspace/v1/params", inputs.permalink())
                 targetImage.save(filename_png, pnginfo=metadata)
 
