@@ -26,7 +26,7 @@ shell: build
 	@docker run $(RUN_ARGS) /bin/bash
 
 test: build
-	@docker run $(RUN_ARGS) python -m unittest
+	@docker run $(RUN_ARGS) bash -c "python -m unittest discover -p 'test_*.py'"
 
 # https://docs.streamlit.io/knowledge-base/using-streamlit/streamlit-watch-changes-other-modules-importing-app
 up: build
